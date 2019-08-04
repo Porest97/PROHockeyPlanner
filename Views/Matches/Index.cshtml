@@ -1,0 +1,113 @@
+﻿@model IEnumerable<PROHockeyPlanner.Models.DataModels.Match>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MatchCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AgeCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GameNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GameDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Arena)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwayTeam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HomeTeamScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwayTeamScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HD1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HD2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LD1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LD2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MatchStatus)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchCategory.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AgeCategory.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Arena.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeTeam.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AwayTeam.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeTeamScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AwayTeamScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HD1.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HD2.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LD1.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LD2.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchStatus.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

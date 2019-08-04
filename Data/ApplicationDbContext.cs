@@ -22,5 +22,11 @@ namespace PROHockeyPlanner.Data
         public DbSet<PROHockeyPlanner.Models.DataModels.RefCategory> RefCategory { get; set; }
         public DbSet<PROHockeyPlanner.Models.DataModels.Referee> Referee { get; set; }
         public DbSet<PROHockeyPlanner.Models.DataModels.RefType> RefType { get; set; }
+        public DbSet<PROHockeyPlanner.Models.DataModels.AgeCategory> AgeCategory { get; set; }
+        public DbSet<PROHockeyPlanner.Models.DataModels.Arena> Arena { get; set; }
+        public DbSet<PROHockeyPlanner.Models.DataModels.Match> Match { get; set; }
+        public DbSet<PROHockeyPlanner.Models.DataModels.MatchCategory> MatchCategory { get; set; }
+        public DbSet<PROHockeyPlanner.Models.DataModels.MatchStatus> MatchStatus { get; set; }
+        public DbSet<PROHockeyPlanner.Models.DataModels.Team> Team { get; set; }
     }
 }

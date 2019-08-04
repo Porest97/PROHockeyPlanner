@@ -15,6 +15,21 @@ namespace PROHockeyPlanner.Controllers
             return View();
         }
 
+        public IActionResult People()
+        {
+            return View();
+        }
+
+        public IActionResult Locations()
+        {
+            return View();
+        }
+
+        public IActionResult Administration()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

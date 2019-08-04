@@ -10,23 +10,23 @@ using PROHockeyPlanner.Models.DataModels;
 
 namespace PROHockeyPlanner.Controllers.DataControllers
 {
-    public class PeopleController : Controller
+    public class ArenasController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PeopleController(ApplicationDbContext context)
+        public ArenasController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: People
+        // GET: Arenas
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Person.Include(p => p.Club).Include(p => p.Country).Include(p => p.PersonType);
+            var applicationDbContext = _context.Arena.Include(a => a.Country);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: People/Details/5
+        // GET: Arenas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,48 +34,42 @@ namespace PROHockeyPlanner.Controllers.DataControllers
                 return NotFound();
             }
 
-            var person = await _context.Person
-                .Include(p => p.Club)
-                .Include(p => p.Country)
-                .Include(p => p.PersonType)
+            var arena = await _context.Arena
+                .Include(a => a.Country)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (person == null)
+            if (arena == null)
             {
                 return NotFound();
             }
 
-            return View(person);
+            return View(arena);
         }
 
-        // GET: People/Create
+        // GET: Arenas/Create
         public IActionResult Create()
         {
-            ViewData["ClubId"] = new SelectList(_context.Club, "Id", "ClubName");
             ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName");
-            ViewData["PersonTypeId"] = new SelectList(_context.Set<PersonType>(), "Id", "PersonTypeName");
             return View();
         }
 
-        // POST: People/Create
+        // POST: Arenas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StreetAddress,ZipCode,City,CountryId,PhoneNumber1,PhoneNumber2,Email,PersonTypeId,ClubId")] Person person)
+        public async Task<IActionResult> Create([Bind("Id,ArenaName,StreetAddress,ZipCode,City,CountryId,PhoneNumber1,PhoneNumber2,Email")] Arena arena)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(person);
+                _context.Add(arena);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClubId"] = new SelectList(_context.Club, "Id", "ClubName", person.ClubId);
-            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", person.CountryId);
-            ViewData["PersonTypeId"] = new SelectList(_context.Set<PersonType>(), "Id", "PersonTypeName", person.PersonTypeId);
-            return View(person);
+            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", arena.CountryId);
+            return View(arena);
         }
 
-        // GET: People/Edit/5
+        // GET: Arenas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,25 +77,23 @@ namespace PROHockeyPlanner.Controllers.DataControllers
                 return NotFound();
             }
 
-            var person = await _context.Person.FindAsync(id);
-            if (person == null)
+            var arena = await _context.Arena.FindAsync(id);
+            if (arena == null)
             {
                 return NotFound();
             }
-            ViewData["ClubId"] = new SelectList(_context.Club, "Id", "ClubName", person.ClubId);
-            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", person.CountryId);
-            ViewData["PersonTypeId"] = new SelectList(_context.Set<PersonType>(), "Id", "PersonTypeName", person.PersonTypeId);
-            return View(person);
+            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", arena.CountryId);
+            return View(arena);
         }
 
-        // POST: People/Edit/5
+        // POST: Arenas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StreetAddress,ZipCode,City,CountryId,PhoneNumber1,PhoneNumber2,Email,PersonTypeId,ClubId")] Person person)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ArenaName,StreetAddress,ZipCode,City,CountryId,PhoneNumber1,PhoneNumber2,Email")] Arena arena)
         {
-            if (id != person.Id)
+            if (id != arena.Id)
             {
                 return NotFound();
             }
@@ -110,12 +102,12 @@ namespace PROHockeyPlanner.Controllers.DataControllers
             {
                 try
                 {
-                    _context.Update(person);
+                    _context.Update(arena);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonExists(person.Id))
+                    if (!ArenaExists(arena.Id))
                     {
                         return NotFound();
                     }
@@ -126,13 +118,11 @@ namespace PROHockeyPlanner.Controllers.DataControllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClubId"] = new SelectList(_context.Club, "Id", "ClubName", person.ClubId);
-            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", person.CountryId);
-            ViewData["PersonTypeId"] = new SelectList(_context.Set<PersonType>(), "Id", "PersonTypeName", person.PersonTypeId);
-            return View(person);
+            ViewData["CountryId"] = new SelectList(_context.Country, "Id", "CountryName", arena.CountryId);
+            return View(arena);
         }
 
-        // GET: People/Delete/5
+        // GET: Arenas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,33 +130,31 @@ namespace PROHockeyPlanner.Controllers.DataControllers
                 return NotFound();
             }
 
-            var person = await _context.Person
-                .Include(p => p.Club)
-                .Include(p => p.Country)
-                .Include(p => p.PersonType)
+            var arena = await _context.Arena
+                .Include(a => a.Country)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (person == null)
+            if (arena == null)
             {
                 return NotFound();
             }
 
-            return View(person);
+            return View(arena);
         }
 
-        // POST: People/Delete/5
+        // POST: Arenas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var person = await _context.Person.FindAsync(id);
-            _context.Person.Remove(person);
+            var arena = await _context.Arena.FindAsync(id);
+            _context.Arena.Remove(arena);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PersonExists(int id)
+        private bool ArenaExists(int id)
         {
-            return _context.Person.Any(e => e.Id == id);
+            return _context.Arena.Any(e => e.Id == id);
         }
     }
 }
